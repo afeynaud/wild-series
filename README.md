@@ -3,4 +3,4 @@ WCS Symfony Quests Learning
 
 ## Styleguide
 
-![Styleguide](https://imgur.com/a/HuQRQX9 "Styleguide")
+![Styleguide](/public/assets/images/styleguide.jpg "Styleguide")
