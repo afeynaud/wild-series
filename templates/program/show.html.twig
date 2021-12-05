@@ -3,7 +3,7 @@
 {% block title %}Série {{ program.id }}{% endblock %}
 
 {% block body %}
-    <div class="media">
+    <div class="container">
         <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
             <h1 class="mt-0">{{ program.title }}</h1>
@@ -12,12 +12,11 @@
             <h2 class="mt-0">Saisons</h2>
             {% for season in seasons %}
                 <h3>{{ season.description }}</h3>
-               {# <a href="{{ path("program_season_show", { program: program.id }, { season: season.number })}}">Voir la saison</a> #}
+                <a href="{{ program.id }}/seasons/{{ season.number }}"> Saison {{ season.number }}</a>
             {% endfor %}
         </div>
+        <a href="{{ path('program_index') }}">
+            Retour à la liste des programmes
+        </a>
     </div>
-
-    <a href="{{ path('program_index') }}">
-        Retour à la liste des programmes
-    </a>
 {% endblock %}
