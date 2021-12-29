@@ -54,16 +54,15 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{id<^[0-9]+$>}", name="show")
      */
-    public function show(Program $program, Season $season): Response
+    public function show(Program $program): Response
     {
         return $this->render('program/show.html.twig', [
             'program' => $program,
-            'seasons' => $season,
         ]);
     }
 
     /**
-     * @Route("/{programId<^[0-9]+$>}/seasons/{seasonId<^[0-9]+$>}", name="season_show")
+     * @Route("/{programId}/season/{seasonId}", name="season_show")
      * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"programId": "id"}})
      * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"seasonId": "id"}})
      */
@@ -76,7 +75,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{programId<^[0-9]+$>}/seasons/{seasonId<^[0-9]+$>}/episodes/{episodeId<^[0-9]+$>}", name="episode_show")
+     * @Route("/{programId<^[0-9]+$>}/season/{seasonId<^[0-9]+$>}/episodes/{episodeId<^[0-9]+$>}", name="episode_show")
      * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"programId": "id"}})
      * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"seasonId": "id"}})
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"episodeId": "id"}})
