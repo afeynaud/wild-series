@@ -1,0 +1,10 @@
+{% extends 'emailBase.html.twig' %}
+
+{% block title %}{{ parent() }} d'un nouvel épisode{% endblock %}
+
+{% block body %}
+    <h1>Nouvel épisode {{ episode.title }} créé</h1>
+    <p>Bonjour, le nouvel épisode {{ episode.title }} de la série {{ episode.season.program.title }} a été créé sur Wild Series</p>
+    <p>Sypnosis : {{ episode.synopsis }}
+    <p><a href="https://localhost:8000/episode">Voir tous les épisodes</a></p>
+{% endblock %}

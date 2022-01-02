@@ -1,0 +1,9 @@
+{% extends 'emailBase.html.twig' %}
+
+{% block title %}{{ parent() }} d'une nouvelle série{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle série {{ program.title }} créée</h1>
+    <p>Bonjour, la nouvelle série {{ program.title }} a été créée sur Wild Series</p>
+    <p>Résumé : {{program.summary }}
+{% endblock %}
