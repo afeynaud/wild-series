@@ -8,6 +8,32 @@
         <h2>Saison {{ season.number }}<br>
             Episode {{ episode.number }} : {{ episode.title }}</h2>
         <p>{{ episode.synopsis }}</p>
+
+        <h2>Commentaires</h2>
+        <table class="table">
+            <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <th>Commentaire de {{ comment.user.email }}</th>
+                    <td>{{comment.comment}}</td>
+                </tr>
+                <tr>
+                    <th>Note</th>
+                    <td>{{comment.rate}}/5</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3>Ajouter un commentaire</h3>
+        {% if app.user %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+        {% else %}
+            <p>Veuillez <a href="{{ path('login') }}">vous connecter</a> pour poster un commentaire.</p>
+        {% endif %}
+
         <a href="{{ path('program_index') }}">
             Retour à la liste des programmes
         </a>

@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+use App\Entity\User;
+use App\Form\EpisodeCommentType;
 use App\Form\ProgramType;
 use App\Service\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -14,6 +17,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+Use DateTime;
 
 /**
  * @Route("/program", name="program_")
@@ -96,12 +100,36 @@ class ProgramController extends AbstractController
      * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"seasonId": "id"}})
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"episodeSlug": "slug"}})
      */
-    public function showEpisode(Program $program, Season $season, Episode $episode, Slugify $slugify): Response
+    public function showEpisode(Program $program, Season $season, Episode $episode, Slugify $slugify, Request $request): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(EpisodeCommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $comment->setUser($user);
+            $comment->setEpisode($episode);
+            $date = new DateTime();
+            $comment->setCreatedAt($date);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+
+        $comments = $this->getDoctrine()
+            ->getRepository(Comment::class)
+            ->findBy(
+                ['episode' => $episode],
+                ['created_at' => 'ASC'],
+            );
+
         return $this->render('program/episode_show.html.twig', [
             'season' => $season,
             'program' => $program,
-            'episode' => $episode
+            'episode' => $episode,
+            'comments' => $comments,
+            'form' => $form->createView(),
         ]);
     }
 }
