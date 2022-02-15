@@ -1,6 +1,12 @@
 {# index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block content %}
+{% block body %}
     <h1>Wild series</h1>
+    <h2>Séries</h2>
+    {% for program in programs %}
+        <ul>
+            <li>{{ program.title }}</li>
+        </ul>
+    {% endfor %}
 {% endblock %}
