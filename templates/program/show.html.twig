@@ -25,8 +25,15 @@
                 {% endfor %}
             </ul>
         </div>
-        <a href="{{ path('program_index') }}">
-            Retour à la liste des programmes
-        </a>
+        <div>
+            {% if is_granted('ROLE_ADMIN') or program.owner.id is same as app.user.id %}
+                <a href="{{ path('program_edit', { 'slug': program.slug} ) }}">Éditer</a>
+            {%endif%}
+        </div>
+        <div>
+            <a href="{{ path('program_index') }}">
+                Retour à la liste des programmes
+            </a>
+        </div>
     </div>
 {% endblock %}

@@ -21,11 +21,18 @@
                     <th>Note</th>
                     <td>{{comment.rate}}/5</td>
                 </tr>
+                {% if app.user is not null %}
+                    {% if is_granted('ROLE_ADMIN') or comment.user.id is same as app.user.id %}
+                    <tr>
+                        <td>{{ include('program/_delete_episode_show_comment.html.twig') }}</td>
+                    </tr>
+                    {% endif %}
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
         <h3>Ajouter un commentaire</h3>
-        {% if app.user %}
+        {% if is_granted('ROLE_CONTRIBUTOR') %}
         {{ form_start(form) }}
         {{ form_widget(form) }}
         <button class="btn">{{ button_label|default('Save') }}</button>

@@ -83,6 +83,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setSummary($programSummary);
             $program->setPoster($programPoster);
             $program->setCategory($this->getReference('category_' . $programCategory));
+            $program->setOwner($this->getReference('user_contributor'));
             for ($i = 0; $i < count(ActorFixtures::ACTORS); $i++) {
                 $program->addActor($this->getReference('actor_' . $i));
             }
