@@ -57,6 +57,7 @@ class ProgramController extends AbstractController
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $slug = $slugify->generate($program->getTitle());
@@ -64,6 +65,8 @@ class ProgramController extends AbstractController
             $program->setOwner($this->getUser());
             $entityManager->persist($program);
             $entityManager->flush();
+
+            $this->addFlash('success', 'The new program has been created');
 
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
@@ -95,7 +98,7 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'The program has been updated');
             return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -113,6 +116,7 @@ class ProgramController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
             $entityManager->remove($program);
             $entityManager->flush();
+            $this->addFlash('danger', 'The program has been deleted');
         }
 
         return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
@@ -162,6 +166,7 @@ class ProgramController extends AbstractController
             $comment->setCreatedAt($date);
             $entityManager->persist($comment);
             $entityManager->flush();
+            $this->addFlash('success', 'A new comment has been added');
         }
 
         $comments = $this->getDoctrine()
@@ -199,6 +204,7 @@ class ProgramController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
             $entityManager->remove($comment);
             $entityManager->flush();
+            $this->addFlash('danger', 'The comment has been deleted');
         }
 
         return $this->redirectToRoute('program_episode_show', [
