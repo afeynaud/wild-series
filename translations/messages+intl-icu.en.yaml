@@ -1,0 +1,5 @@
+hello_username: Hello %username%
+account.profile: My account
+account.logout: Logout
+account.register: Register
+account.login: Login

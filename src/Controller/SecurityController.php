@@ -66,4 +66,17 @@ class SecurityController extends AbstractController
         // controller can be blank: it will never be called!
         throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
+
+    /**
+     * @Route("/language/{language}", name="app_language", methods={"GET"})
+     */
+    public function changeLanguage(Request $request, string $language): Response
+    {
+        if ($language === 'fr') {
+            $request->setLocale('fr');
+        } elseif ($language === 'en') {
+            $request->setLocale('en');
+        }
+        return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

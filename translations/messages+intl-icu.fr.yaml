@@ -1,0 +1,5 @@
+hello_username: Bonjour %username%
+account.profile: Mon compte
+account.logout: Se déconnecter
+account.register: S'inscrire
+account.login: Se connecter
