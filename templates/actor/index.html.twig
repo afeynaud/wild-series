@@ -6,8 +6,10 @@
     <div class='container'>
         <h1>Liste des acteurs :</h1>
         <ul>
+            {{ dump(actors) }}
             {% for actor in actors %}
                 <li>
+                    <img src='/images/actors/{{ actor.imageName }}' alt='Photo de profil'>
                     <h2>{{ actor.firstname }} {{ actor.lastname }}</h2>
                     <a href="{{ path('actor_show', {'id': actor.id}) }}">Voir sa fiche détaillée</a>
                 </li>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Actor;
+use App\Form\ActorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,6 +37,29 @@ class ActorController extends AbstractController
     {
         return $this->render('actor/show.html.twig', [
             'actor' => $actor,
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="new")
+     */
+    public function new(Request $request): Response
+    {
+        $actor = new Actor();
+        $form = $this->createForm(ActorType::class, $actor);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($actor);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'The new actor has been created');
+
+            return $this->redirectToRoute('actor_index');
+        }
+        return $this->render('actor/new.html.twig', [
+            "form" => $form->createView(),
         ]);
     }
 }
