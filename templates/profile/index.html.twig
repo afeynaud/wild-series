@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Mon compte</h1>
-    <p>{{ user.email }}</p>
+    <div class='container'>
+        <h1>Mon compte</h1>
+        <p>{{ user.email }}</p>
+        <h2>Watchlist</h2>
+        <ul>
+            {% for program in watchlist %}
+                <li><a href="{{ path("program_show", { 'slug': program.slug }) }}">{{ program.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

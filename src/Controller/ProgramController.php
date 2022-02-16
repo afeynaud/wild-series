@@ -213,4 +213,23 @@ class ProgramController extends AbstractController
             'episodeSlug' => $episode->getSlug()
         ], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/{programSlug}/watchlist", name="watchlist_add")
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"programSlug": "slug"}})
+     */
+    public function addToWatchList(Program $program, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        if ($this->getUser()->isInWatchList($program)) {
+            $this->getUser()->removeFromWatchlist($program);
+        } else {
+            $this->getUser()->addToWatchlist($program);
+        }
+        $entityManager->persist($program);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('program_show', [
+            'slug' => $program->getSlug(),
+        ], Response::HTTP_SEE_OTHER);
+    }
 }

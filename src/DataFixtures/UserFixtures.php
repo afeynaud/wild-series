@@ -25,8 +25,8 @@ class UserFixtures extends Fixture
             $contributor,
             'contributorpassword'
         );
-
         $contributor->setPassword($hashedPassword);
+        $this->addReference('user_contributor', $contributor);
         $manager->persist($contributor);
 
         $admin = new User();
@@ -37,6 +37,7 @@ class UserFixtures extends Fixture
             'adminpassword'
         );
         $admin->setPassword($hashedPassword);
+        $this->addReference('user_admin', $admin);
         $manager->persist($admin);
 
         $manager->flush();
