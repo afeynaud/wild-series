@@ -19,15 +19,19 @@
             <strong>Acteurs :</strong>
             <ul>
                 {% for actor in program.actors %}
-                <a href="{{ path('actor_show', {'id': actor.id}) }}"><li>{{ actor.firstname }} {{ actor.lastname}} </li></a>
+                    <li>
+                        <a href="{{ path('actor_show', {'id': actor.id}) }}">{{ actor.firstname }} {{ actor.lastname}}</a>
+                    </li>
                 {% else %}
                     <li>Aucun acteur pour cette série</li>
                 {% endfor %}
             </ul>
         </div>
         <div>
-            {% if is_granted('ROLE_ADMIN') or program.owner.id is same as app.user.id %}
-                <a href="{{ path('program_edit', {'slug': program.slug} ) }}">Éditer</a>
+            {% if app.user is not null %}
+                {% if is_granted('ROLE_ADMIN') or program.owner.id is same as app.user.id %}
+                    <a href="{{ path('program_edit', {'slug': program.slug} ) }}">Éditer</a>
+                {%endif%}
             {%endif%}
         </div>
         <div>
